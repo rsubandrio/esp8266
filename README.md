@@ -3,7 +3,7 @@
 Hai, ini adalah repository untuk project IoT yang menggunakan nodemcu (ESP8266). Sketch pada project ini dibuat dengan menggunakan **Visual Studio Code** dan ekstensi **Plaformio**.
 
 ## Ringkasan Project
-Project ini untuk dimaksudkan untuk
+Project ini dimaksudkan untuk
 > * Pengaturan awal koneksi ke WiFi dengan SSID dan password yang tidak ditulis langsung pada sketch.
 > * Deteksi dan koneksi ulang jika terputus dari WiFi
 > * Feedback sederhana dengan memanfaatkan led yang terdapat pada board nodemcu
