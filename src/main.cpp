@@ -55,9 +55,13 @@ void setup()
   pinMode(LED, OUTPUT);
   ticker.attach(0.5, ledToggle);
 
+  // reset setting
   // wifiManager.resetSettings();
 
   wifiManager.setAPCallback(configModeCallback);
+
+  // tampilkan atau matikan pesan debug di serial
+  wifiManager.setDebugOutput(false);
 
   if (!wifiManager.autoConnect())
   {
