@@ -14,6 +14,8 @@ struct Config
   char mqtt_port[6];
   char mqtt_sub[16];
   char mqtt_pub[16];
+  char http_username[8] = "admin";
+  char http_password[12] = "password20";
 };
 
 Config conf;
@@ -43,6 +45,10 @@ void configModeCallback(AsyncWiFiManager *myWiFiManager)
   Serial.println(myWiFiManager->getConfigPortalSSID());
   Serial.print(F("APIP: "));
   Serial.println(WiFi.softAPIP());
+}
+
+bool checkAuth(AsyncWebServerRequest *request) {
+  return request->authenticate(conf.http_username, conf.http_password);
 }
 
 AsyncWebServer server(80);
@@ -104,6 +110,20 @@ void setup()
 
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
     request->send(200, "text/plain", "Hello, world");
+  });
+
+  server.on("/login", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if(!checkAuth(request))
+        return request->requestAuthentication();
+    // request->send(200, "text/plain", "Login Success!");
+    request->redirect("/setup");
+  });
+
+  server.on("/setup", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if (!checkAuth(request)) {
+      request->redirect("/login");
+    }
+    request->send(200, "text/plain", "Halaman Setup");
   });
 
   server.on("/wifireset", HTTP_GET, [](AsyncWebServerRequest *request) {
